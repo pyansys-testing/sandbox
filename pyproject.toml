@@ -1,0 +1,22 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "ansys-sandbox-core"
+dynamic = ["version", "description"]
+readme = "README.rst"
+requires-python = ">=3.7"
+license = {file = "LICENSE"}
+authors = [
+    {name = "ANSYS, Inc.", email = "pyansys.support@ansys.com"},
+]
+maintainers = [
+    {name = "PyAnsys developers", email = "pyansys.maintainers@ansys.com"},
+]
+
+classifiers = []
+dependencies = []
+
+[tool.flit.module]
+name = "ansys.sandbox.core"
