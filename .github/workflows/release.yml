@@ -46,7 +46,7 @@ jobs:
           git --no-pager branch
 
           # Bump new version in branch
-          bumpver update --set-version ${{ env.NEW_VERSION }}
+          bumpver update --set-version ${{ env.NEW_VERSION }} --no-commit --no-tag-commit --no-push
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
