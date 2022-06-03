@@ -49,7 +49,7 @@ jobs:
           if ! git checkout $RELEASE_BRANCH; then NEW_BRANCH=false; fi
 
           # Bump new version in branch
-          bumpver update --set-version ${{ env.NEW_VERSION }} --no-commit --no-tag-commit --no-push
+          bumpver update --set-version ${{ env.NEW_VERSION }} --no-commit --no-tag-commit --no-push -n
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         if: '${{ env.NEW_BRANCH }}'
