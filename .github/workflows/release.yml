@@ -8,6 +8,7 @@ on:
 
 env:
   MAIN_PYTHON_VERSION: 3.9
+  NEW_VERSION: ${{ github.event.inputs.new_version }}
 
 jobs:
   print-tag:
@@ -26,11 +27,20 @@ jobs:
         run: |
           python -m pip install -U pip
           python -m pip install \
-          git+https://github.com/jorgepiloto/bumpver.git@93dcdeb5ff76bb58fa617d4939561ecc60ef8720
+          git+https://github.com/jorgepiloto/bumpver.git@14850287a1ef3cc3848e5d0cc9317d4a228d2759
 
-      - name: Print the input tag to STDOUT
-        run: echo  The tags are ${{ github.event.inputs.new_version }}
-
-      - name: Test upgrade version
+      - name: Get new major, minor and patch
         run: |
-          bumpver test '0.1.dev0' 'MAJOR.MINOR[.PATCH][.TAGNUM]' --tag=final
+          # Split version into MAJOR, MINOR and PATCH
+          NEW_VERSION_STR=($(echo "${{ env.NEW_VERSION }}" | tr "." "\n"))
+          NEW_VERSION_MAJOR=${NEW_VERSION_STR[0]}
+          NEW_VERSION_MINOR=${NEW_VERSION_STR[1]}
+          NEW_VERSION_PATCH=${NEW_VERSION_STR[2]}
+
+          # Checkout release branch. Create one if required
+          RELEASE_BRANCH="release/$NEW_VERSION_MAJOR.$NEW_VERSION_MINOR"
+          git checkout $RELEASE_BRANCH || git checkout -b $RELEASE_BRANCH
+          git --no-pager branch
+
+          # Bump new version in branch
+          bumpver update --set-version ${{ env.NEW_VERSION }} -d -n
