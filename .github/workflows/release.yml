@@ -43,7 +43,8 @@ jobs:
           NEW_VERSION_PATCH=${NEW_VERSION_STR[2]}
 
           # Checkout release branch. Create one if required
-          RELEASE_BRANCH="release/$NEW_VERSION_MAJOR.$NEW_VERSION_MINOR"
+          BRANCH="release/$NEW_VERSION_MAJOR.$NEW_VERSION_MINOR"
+          echo "::set-env name=RELEASE_BRANCH::$BRANCH"
 
           # Check if release branch already exists
           if ! git checkout $RELEASE_BRANCH; then NEW_BRANCH=false; fi
@@ -56,7 +57,7 @@ jobs:
         with:
           add: '.'
           message: 'Bump ${{ env.NEW_VERSION }}'
-          new_branch: 'release/${{ env.RELEASE_BRANCH }}'
+          new_branch: '${{ env.RELEASE_BRANCH }}'
           push: true
           tag: 'v${{ env.NEW_VERSION }}'
           tag_push: '--force'
