@@ -25,9 +25,9 @@ name = "ansys.sandbox.core"
 current_version = "0.1.dev0"
 version_pattern = "[MAJOR].[MINOR][.PATCH][.TAGNUM]"
 commit_message = "Bump version {old_version} -> {new_version}"
-commit = true
-tag = true
-push = true
+commit = false
+tag = false
+push = false
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = [
