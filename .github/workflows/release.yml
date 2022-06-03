@@ -56,7 +56,7 @@ jobs:
         with:
           add: '.'
           message: 'Bump ${{ env.NEW_VERSION }}'
-          new-branch: 'release/${{ env.RELEASE_BRANCH }}'
+          new_branch: 'release/${{ env.RELEASE_BRANCH }}'
           push: true
           tag: 'v${{ env.NEW_VERSION }}'
-          tag_push: '--force'  
+          tag_push: '--force'
