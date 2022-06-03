@@ -22,7 +22,7 @@ dependencies = []
 name = "ansys.sandbox.core"
 
 [tool.bumpver]
-current_version = "0.2"
+current_version = "0.1.dev0"
 version_pattern = "[MAJOR].[MINOR][.PATCH][.TAGNUM]"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
