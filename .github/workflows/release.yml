@@ -3,7 +3,7 @@ name: "Release"
 on:
   workflow_dispatch:
     inputs:
-      name:
+      version-type:
         type: choice
         description: Release
         options: 
@@ -36,14 +36,32 @@ jobs:
           python -m pip install \
           git+https://github.com/jorgepiloto/bumpver.git@14850287a1ef3cc3848e5d0cc9317d4a228d2759
 
-      - name: Release patch version
+      # Filter out by the type of version
+      - name: Release major version
+        if: github.event.inputs.version-type == 'Major'
+        run: |
+          echo "MAJOR release..."
+
+      # Filter out by the type of version
+      - name: Release major version
+        if: github.event.inputs.version-type == 'Minor'
+        run: |
+          echo "MINOR release..."
+
+      # Filter out by the type of version
+      - name: Release major version
+        if: github.event.inputs.version-type == 'Patch'
+        run: |
+          echo "PATCH release..."
+
+      - name: Get latet MAJOR.MINOR version
         run: |
 
           latest_version=0.0
           for branch in $(git branch | grep "release/"); do
                   version="${branch##release/}"
                   if [[ $version -ge $latest_version ]]; then
-                          latest_version=version
+                          latest_version=$version
                   fi
           done
           echo "::set-output name=latest_version::$latest_version"
