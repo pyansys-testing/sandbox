@@ -1,0 +1,10 @@
+#!/bin/bash
+
+latest_version=0.0
+for branch in $(git branch | grep "release/"); do
+	version="${branch##release/}"
+	if [[ $version -ge $latest_version ]]; then
+		latest_version=version
+	fi
+done
+echo "Latest version is $version"
