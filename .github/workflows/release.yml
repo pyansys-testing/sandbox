@@ -1,17 +1,19 @@
 name: "Release"
+
 on:
   workflow_dispatch:
     inputs:
-      new_version:
-        description: 'Semantic Version Number X.Y.Z'
+      name:
+        type: choice
+        description: Release
+        options: 
+        - Major
+        - Minor
+        - Patch
         required: true
-        type: string
 
 env:
   MAIN_PYTHON_VERSION: 3.9
-  NEW_VERSION: ${{ github.event.inputs.new_version }}
-  NEW_BRANCH: true
-  RELEASE_BRANCH: "release/X.Y.Z"
 
 jobs:
   bumpver:
@@ -34,30 +36,30 @@ jobs:
           python -m pip install \
           git+https://github.com/jorgepiloto/bumpver.git@14850287a1ef3cc3848e5d0cc9317d4a228d2759
 
-      - name: Get new major, minor and patch
-        run: |
-          # Split version into MAJOR, MINOR and PATCH
-          NEW_VERSION_STR=($(echo "${{ env.NEW_VERSION }}" | tr "." "\n"))
-          NEW_VERSION_MAJOR=${NEW_VERSION_STR[0]}
-          NEW_VERSION_MINOR=${NEW_VERSION_STR[1]}
-          NEW_VERSION_PATCH=${NEW_VERSION_STR[2]}
+          #- name: Get new major, minor and patch
+          #  run: |
+          #    # Split version into MAJOR, MINOR and PATCH
+          #    NEW_VERSION_STR=($(echo "${{ env.NEW_VERSION }}" | tr "." "\n"))
+          #    NEW_VERSION_MAJOR=${NEW_VERSION_STR[0]}
+          #    NEW_VERSION_MINOR=${NEW_VERSION_STR[1]}
+          #    NEW_VERSION_PATCH=${NEW_VERSION_STR[2]}
 
-          # Checkout release branch. Create one if required
-          BRANCH="release/$NEW_VERSION_MAJOR.$NEW_VERSION_MINOR"
-          echo "::set-env name=RELEASE_BRANCH::$BRANCH"
+          #    # Checkout release branch. Create one if required
+          #    BRANCH="release/$NEW_VERSION_MAJOR.$NEW_VERSION_MINOR"
+          #    echo "::set-env name=RELEASE_BRANCH::$BRANCH"
 
-          # Check if release branch already exists
-          if ! git checkout $RELEASE_BRANCH; then NEW_BRANCH=false; fi
+          #    # Check if release branch already exists
+          #    if ! git checkout $RELEASE_BRANCH; then NEW_BRANCH=false; fi
 
-          # Bump new version in branch
-          bumpver update --set-version ${{ env.NEW_VERSION }} --no-commit --no-tag-commit --no-push -n
+          #    # Bump new version in branch
+          #    bumpver update --set-version ${{ env.NEW_VERSION }} --no-commit --no-tag-commit --no-push -n
 
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
-        if: '${{ env.NEW_BRANCH }}'
-        with:
-          add: '.'
-          message: 'Bump ${{ env.NEW_VERSION }}'
-          new_branch: '${{ env.RELEASE_BRANCH }}'
-          push: true
-          tag: 'v${{ env.NEW_VERSION }}'
-          tag_push: '--force'
+          #- uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+          #  if: '${{ env.NEW_BRANCH }}'
+          #  with:
+          #    add: '.'
+          #    message: 'Bump ${{ env.NEW_VERSION }}'
+          #    new_branch: '${{ env.RELEASE_BRANCH }}'
+          #    push: true
+          #    tag: 'v${{ env.NEW_VERSION }}'
+          #    tag_push: '--force'
