@@ -23,3 +23,4 @@ jobs:
           contains(github.event.comment.body, 'LGTM') && contains(github.event.comment.user.login, 'germa89')
         with:
           review-message: "Auto approved automated PR"
+          pull-request-number: ${{ github.event.issue.number }}
