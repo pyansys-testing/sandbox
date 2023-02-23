@@ -11,11 +11,6 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check
-        if: |
-          contains(github.event.comment.body, 'LGTM') && contains(github.event.comment.author.login, 'germa89')
-        run: |
-          echo "Run action"
       - uses: hmarr/auto-approve-action@v3
         if: |
           contains(github.event.comment.body, 'LGTM') && contains(github.event.comment.author.login, 'germa89')
