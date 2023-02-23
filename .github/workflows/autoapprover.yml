@@ -1,5 +1,6 @@
 name: Approve PRs
 on:
+  workflow_dispatch:
   issue_comment:                                     
     types: [created, edited]
 
@@ -12,6 +13,6 @@ jobs:
     steps:
       - name: Check
         if: |
-          contains(github.event.comment.body, 'LGTM') && contains(github.event.comment.author, 'germa89')
+          contains(github.event.comment.body, 'LGTM') && contains(github.event.comment.author.login, 'germa89')
         run: |
           echo "Run action"
